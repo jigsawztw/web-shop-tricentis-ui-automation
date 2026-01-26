@@ -1,0 +1,23 @@
+{
+  "name": "web-shop-tricentis-ui-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jigsawztw/web-shop-tricentis-ui-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jigsawztw/web-shop-tricentis-ui-automation/issues"
+  },
+  "homepage": "https://github.com/jigsawztw/web-shop-tricentis-ui-automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.0.10"
+  }
+}
