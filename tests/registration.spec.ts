@@ -44,7 +44,7 @@ test('TC-REGRESSION-05: Невалидный email', async ({ page }) => {
 
 })
 
-test('TC-REGRESSION-06: пустой Email', async ({ page }) => {
+test('TC-REGRESSION-06: Пустой Email', async ({ page }) => {
     const user = userFactory.createWithOverride({ email: '' });
 
     await openRegistrationForm(page);
