@@ -28,5 +28,5 @@
    Playwright автоматически подхватит конфигурацию из
    `playwright.config.ts` / `playwright.config.js`:
     ```bash
-    npm test
+    npm run test
     ```
