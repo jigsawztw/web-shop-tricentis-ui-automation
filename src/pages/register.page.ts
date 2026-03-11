@@ -5,18 +5,18 @@ export class RegisterPage extends BasePage {
   protected path = "/register";
 
   readonly registerButton: Locator;
-  readonly formHeading: Locator;
+  readonly formTitle: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.registerButton = page.locator("#register-button");
-    this.formHeading = page.getByText("Your Personal Details");
+    this.formTitle = page.getByText("Your Personal Details");
   }
 
   async openAndCheckForm() {
     await this.open();
-    await expect(this.formHeading).toBeVisible();
+    await expect(this.formTitle).toBeVisible();
     await expect(this.registerButton).toBeEnabled();
   }
 
