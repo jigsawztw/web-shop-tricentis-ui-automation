@@ -40,8 +40,6 @@ test.describe("Регистрация пользователя", () => {
   test("TC-REGRESSION-05: Невалидный email", async ({ page }) => {
     const user = userFactory.createWithOverride({ email: "@s" });
 
-    await openRegistrationForm(page);
-
     await page.locator("#gender-female").click();
     await page.fill("#FirstName", user.firstName);
     await page.fill("#LastName", user.lastName);
@@ -57,8 +55,6 @@ test.describe("Регистрация пользователя", () => {
 
   test("TC-REGRESSION-06: Пустой Email", async ({ page }) => {
     const user = userFactory.createWithOverride({ email: "" });
-
-    await openRegistrationForm(page);
 
     await page.locator("#gender-female").click();
     await page.fill("#FirstName", user.firstName);
