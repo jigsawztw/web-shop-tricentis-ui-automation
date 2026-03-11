@@ -12,9 +12,7 @@ test.describe("Регистрация пользователя", () => {
         await openRegistrationForm(page);
     });
 
-    test("TC-REGRESSION-04: Успешная регистрация пользователя", async ({
-        page,
-    }) => {
+    test("TC-REGRESSION-04: Успешная регистрация пользователя", async ({ page }) => {
         // 2. Заполняем поля формы
         await page.locator("#gender-male").click();
         await page.fill("#FirstName", user.firstName);
