@@ -12,19 +12,18 @@ test.describe("Регистрация пользователя", () => {
   test("TC-REGRESSION-04: Успешная регистрация пользователя", async ({
     page,
   }) => {
-    // 1. Создали экземпляр страницы
     const mainPage = new MainPage(page);
     await mainPage.open();
     await mainPage.goToRegisterPage();
     const registerPage = new RegisterPage(page);
-    await registerPage.open();
+    await registerPage.openAndCheckForm();
     await registerPage.fillRegisterFields({
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       password: user.password,
     });
-    await page.locator("#register-button").click();
+    await registerPage.register();
     // 4. Проверяем успешную регистрацию
     await expect(
       page.getByRole("heading", { level: 1, name: "Register" }),
