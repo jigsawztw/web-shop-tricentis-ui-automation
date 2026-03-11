@@ -3,8 +3,8 @@ import { User } from "../types/user";
 
 export const userFactory = {
   createByDefault(): User {
-    const firstName = faker.person.firstName();
-    const lastName = faker.person.lastName();
+    const firstName = faker.person.firstName('female')
+    const lastName = faker.person.lastName('female')
 
     return {
       firstName,
@@ -13,7 +13,7 @@ export const userFactory = {
       password: faker.internet.password({ length: 6 }),
     };
   },
-  //to do - возможно придется вернуть позже, либо удалить за ненадобностью
+    //to-do - возможно придется вернуть позже, либо удалить за ненадобностью
   /* createWithEmail(email: string): User {
     const user = this.createByDefault()
     return {
