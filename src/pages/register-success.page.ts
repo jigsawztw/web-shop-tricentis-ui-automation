@@ -1,5 +1,4 @@
-// register-success.page.ts
-import { BasePage } from "./base.page";
+import { BasePage } from "./index";
 import { Page, Locator, expect } from "@playwright/test";
 
 export class RegisterSuccessPage extends BasePage {

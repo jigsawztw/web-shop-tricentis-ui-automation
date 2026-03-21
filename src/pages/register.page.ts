@@ -1,5 +1,4 @@
-import { BasePage } from "./base.page";
-import { RegisterSuccessPage } from "./register-success.page";
+import { BasePage, RegisterSuccessPage } from "./index";
 import { Page, Locator, expect } from "@playwright/test";
 
 export class RegisterPage extends BasePage {

@@ -29,7 +29,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-05: Невалидный email", async ({ page }) => {
-    user.email = "@s"; //невалидный
+    user.email = "@s"; //невалидный email
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -42,7 +42,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-06: Email не заполнен", async ({ page }) => {
-    user.email = ""; //пустой
+    user.email = ""; //пустой email
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -105,7 +105,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-11: Пароль не проходит по длине", async ({ page }) => {
-    user.password = "12345";
+    user.password = "12345"; //6 символов минимум
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
