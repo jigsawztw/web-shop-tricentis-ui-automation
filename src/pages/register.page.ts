@@ -35,13 +35,16 @@ export class RegisterPage extends BasePage {
     await expect(this.registerButton).toBeEnabled();
   }
 
-  async fillRegisterFields(user: { firstName: string; lastName: string; email: string; password: string }) {
+  async fillRegisterFields(user: { firstName: string; lastName: string; email: string; password: string },
+    confirmPasswordOverride?: string) {
     await this.genderFemale.click();
     await this.firstNameInput.fill(user.firstName);
     await this.lastNameInput.fill(user.lastName);
     await this.emailInput.fill(user.email);
     await this.passwordInput.fill(user.password);
-    await this.confirmPasswordInput.fill(user.password);
+
+    await expect(this.confirmPasswordInput).toBeVisible();
+    await this.confirmPasswordInput.fill(confirmPasswordOverride ?? user.password);
   }
 
   async register(): Promise<RegisterSuccessPage> {
@@ -49,7 +52,8 @@ export class RegisterPage extends BasePage {
     return new RegisterSuccessPage(this.page);
   }
 
-  async expectEmailError(message: string | RegExp) {
-    await expect(this.emailError).toHaveText(message);
+  async expectFieldValidationError(fieldName: string, message: string | RegExp) {
+    const fieldError = this.page.locator(`span.field-validation-error[data-valmsg-for="${fieldName}"] span`);
+    await expect(fieldError).toHaveText(message);
   }
 }
