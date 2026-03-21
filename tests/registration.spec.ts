@@ -28,19 +28,8 @@ test.describe("Регистрация пользователя", () => {
       email: user.email,
       password: user.password,
     });
-    await registerPage.register();
-    // 4. Проверяем успешную регистрацию
-    await expect(
-      page.getByRole("heading", { level: 1, name: "Register" }),
-    ).toBeVisible();
-    await expect(page.locator(".result")).toHaveText(
-      "Your registration completed",
-    );
-    await expect(page.getByRole("button", { name: "Continue" })).toBeEnabled();
-    await expect(page.locator(".account", { hasText: user.email })).toHaveText(
-      user.email,
-    );
-    await expect(page.getByRole("link", { name: "Log out" })).toBeEnabled();
+    const successPage = await registerPage.register();
+    await successPage.checkSuccess(user.email);
   });
 
   test("TC-REGRESSION-05: Невалидный email", async ({ page }) => {

@@ -1,4 +1,5 @@
 import { BasePage } from "./base.page";
+import { RegisterSuccessPage } from "./register-success.page";
 import { Page, Locator, expect } from "@playwright/test";
 
 export class RegisterPage extends BasePage {
@@ -33,7 +34,8 @@ export class RegisterPage extends BasePage {
     await this.page.fill("#Password", user.password);
     await this.page.fill("#ConfirmPassword", user.password);
   }
-  async register() {
-    await this.registerButton.click();
-  }
+  async register(): Promise<RegisterSuccessPage> {
+  await this.registerButton.click();
+  return new RegisterSuccessPage(this.page);
+}
 }
