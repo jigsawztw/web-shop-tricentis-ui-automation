@@ -8,9 +8,7 @@ export class MainPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.registerLink = this.registerLink = page.getByRole("link", {
-      name: "Register",
-    });
+    this.registerLink = this.registerLink = page.getByRole("link", { name: "Register" });
   }
 
   async goToRegisterPage() {
