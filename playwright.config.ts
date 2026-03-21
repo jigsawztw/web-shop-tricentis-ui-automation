@@ -10,10 +10,11 @@ export default defineConfig({
   // workers: 1,             // один поток для последовательного выполнения
   reporter: [
     ["list", { printSteps: true }], //видеть шаги в консоли
-    ["html", { outputFolder: reportFolder }], //генерация папки с отчетом в отдельную папку
-  ],
+    ["html", { outputFolder: "playwright-report" }], //генерация папки с отчетом в отдельную папку
+    ["allure-playwright"],], // <-- подключаем Allure 
   use: {
     screenshot: "only-on-failure",
+    video: "retain-on-failure", // если нужны видео
     launchOptions: {
       /*  slowMo: 500, */
       // замедляем действия для наглядного дебага
