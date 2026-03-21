@@ -21,7 +21,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     const registerSuccessPage = await registerPage.register();
 
@@ -34,7 +34,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
@@ -47,7 +47,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
@@ -60,7 +60,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
@@ -73,7 +73,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
@@ -86,7 +86,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
@@ -100,7 +100,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user, confirmPassword);
     await registerPage.register();
 
@@ -113,7 +113,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
-    await registerPage.openAndCheckForm();
+    await registerPage.checkRegisterFormFields();
     await registerPage.fillRegisterFields(user);
     await registerPage.register();
 

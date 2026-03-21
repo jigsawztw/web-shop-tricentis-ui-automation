@@ -28,7 +28,7 @@ export class RegisterPage extends BasePage {
     this.emailError = page.locator(".field-validation-error span")
   }
 
-  async openAndCheckForm() {
+  async checkRegisterFormFields() {
     await this.open();
     await expect(this.formTitle).toBeVisible();
     await expect(this.registerButton).toBeEnabled();
