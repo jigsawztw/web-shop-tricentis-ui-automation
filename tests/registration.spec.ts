@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { userFactory } from "../factories/userFactory";
+import { UserBuilder } from "../factories/userBuilder";
 import type { User } from "../types/user";
 import { RegisterPage, MainPage } from "../src/pages/index";
 
@@ -9,8 +9,6 @@ test.describe("Регистрация пользователя", () => {
   let registerPage: RegisterPage;
 
   test.beforeEach(async ({ page }) => {
-    user = userFactory.createByDefault();
-
     mainPage = new MainPage(page);
     registerPage = new RegisterPage(page);
   });
@@ -18,6 +16,8 @@ test.describe("Регистрация пользователя", () => {
   test("TC-REGRESSION-04: Успешная регистрация пользователя", async ({
     page,
   }) => {
+    const user = new UserBuilder().build();
+
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
@@ -29,7 +29,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-05: Невалидный email", async ({ page }) => {
-    user.email = "@s"; //невалидный email
+    const user = new UserBuilder().withEmail("@s").build(); //невалидный email
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -42,7 +42,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-06: Email не заполнен", async ({ page }) => {
-    user.email = ""; //пустой email
+    const user = new UserBuilder().withEmail("").build(); //пустой email
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -55,7 +55,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-07: Имя не заполнено", async ({ page }) => {
-    user.firstName = ""; //пустое имя
+    const user = new UserBuilder().withFirstName("").build(); //пустое имя
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -68,7 +68,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-08: Фамилия не заполнена", async ({ page }) => {
-    user.lastName = ""; //пустая фамилия
+    const user = new UserBuilder().withLastName("").build(); //пустая фамилия
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -81,7 +81,7 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-09: Пароль не заполнен", async ({ page }) => {
-    user.password = ""; //пустой пароль
+    const user = new UserBuilder().withPassword("").build(); //пустой пароль
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
@@ -94,18 +94,21 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-10: Пароль не совпадает", async ({ page }) => {
+    const user = new UserBuilder().build();
+    const confirmPassword = user.password + "1";
+
     await mainPage.open();
     await mainPage.goToRegisterPage();
 
     await registerPage.openAndCheckForm();
-    await registerPage.fillRegisterFields(user, user.password + "1");
+    await registerPage.fillRegisterFields(user, confirmPassword);
     await registerPage.register();
 
     await registerPage.expectFieldValidationError("ConfirmPassword", /the password and confirmation password do not match./i);
   });
 
   test("TC-REGRESSION-11: Пароль не проходит по длине", async ({ page }) => {
-    user.password = "12345"; //6 символов минимум
+    const user = new UserBuilder().withPassword("12345").build(); //6 символов минимум
 
     await mainPage.open();
     await mainPage.goToRegisterPage();
