@@ -37,7 +37,13 @@
 6. 📊 **Отчёты**
 
    **для Allure отчетов:**
-   
+
+   ```bash
+   npm run report:allure
+   ```
+
+   Примечание:
+
    Проверь установлен ли jdk:
    ```bash
    java -version
@@ -50,10 +56,4 @@
    ```bash
    java -version
    ```
-
    Настрой JAVA_HOME в переменных среды и добавь %JAVA_HOME%\bin в Path.  
-
-   Для открытия Allure-отчётов:
-   ```bash
-   npm run report:allure
-   ```
