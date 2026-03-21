@@ -25,7 +25,18 @@
    npx playwright install
    ```
 
-4. **Проверка Java (для Allure отчетов)**
+4. 🧪 **Запусти тесты**
+
+   Команда выполнит все тесты, используя скрипт test из `package.json`.  
+   Playwright автоматически подхватит конфигурацию из `playwright.config.ts`:
+
+   ```bash
+   npm run test
+   ```
+
+6. 📊 **Отчёты**
+
+   **для Allure отчетов:**
    
    Проверь установлен ли jdk:
    ```bash
@@ -40,21 +51,8 @@
    java -version
    ```
 
-   Настрой JAVA_HOME в переменных среды и добавь %JAVA_HOME%\bin в Path.
+   Настрой JAVA_HOME в переменных среды и добавь %JAVA_HOME%\bin в Path.  
 
-
-5. 🧪 **Запусти тесты**
-
-   Команда выполнит все тесты, используя скрипт test из `package.json`.  
-   Playwright автоматически подхватит конфигурацию из `playwright.config.ts`:
-
-   ```bash
-   npm run test
-   ```
-
-
-6. 📊 **Отчёты**
-   
    Для открытия Allure-отчётов:
    ```bash
    npm run report:allure
