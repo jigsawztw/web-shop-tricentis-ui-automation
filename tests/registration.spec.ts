@@ -22,12 +22,7 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.goToRegisterPage();
 
     await registerPage.openAndCheckForm();
-    await registerPage.fillRegisterFields({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-    });
+    await registerPage.fillRegisterFields(user);
     const successPage = await registerPage.register();
     await successPage.checkSuccess(user.email);
   });
@@ -39,17 +34,10 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.goToRegisterPage();
 
     await registerPage.openAndCheckForm();
-    await registerPage.fillRegisterFields({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-    });
+    await registerPage.fillRegisterFields(user);
     await registerPage.register();
 
-    await expect(page.locator(".field-validation-error span")).toHaveText(
-      /wrong email/i,
-    );
+    await registerPage.expectEmailError(/wrong email/i);
   });
 
   test("TC-REGRESSION-06: Пустой Email", async ({ page }) => {
@@ -59,16 +47,8 @@ test.describe("Регистрация пользователя", () => {
     await mainPage.goToRegisterPage();
 
     await registerPage.openAndCheckForm();
-    await registerPage.fillRegisterFields({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-    });
+    await registerPage.fillRegisterFields(user);
     await registerPage.register();
-
-    await expect(page.locator(".field-validation-error span")).toHaveText(
-      /email is required./i,
-    );
+    await registerPage.expectEmailError(/email is required./i);
   });
 });
