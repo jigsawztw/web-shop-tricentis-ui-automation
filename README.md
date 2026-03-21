@@ -41,19 +41,3 @@
    ```bash
    npm run report:allure
    ```
-
-   Примечание:
-
-   Проверь установлен ли jdk:
-   ```bash
-   java -version
-   ```
-   Если команда не найдена, нужно установить JDK, через Chocolatey, например:
-   ```bash
-   choco install openjdk
-   ```
-   После установки проверь что выводится версия JDK:
-   ```bash
-   java -version
-   ```
-   Настрой JAVA_HOME в переменных среды и добавь %JAVA_HOME%\bin в Path.  
