@@ -26,7 +26,7 @@
 
    Команда выполнит все тесты, используя скрипт test из `package.json`.
    Playwright автоматически подхватит конфигурацию из
-   `playwright.config.ts` / `playwright.config.js`:
+   `playwright.config.ts`:
     ```bash
     npm run test
     ```
