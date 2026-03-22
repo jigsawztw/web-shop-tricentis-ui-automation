@@ -25,7 +25,7 @@ export class RegisterPage extends BasePage {
     this.emailInput = page.getByLabel("Email");
     this.passwordInput = page.locator('input[name="Password"]');
     this.confirmPasswordInput = page.locator('input[name="ConfirmPassword"]');
-    this.emailError = page.locator(".field-validation-error span")
+    this.emailError = page.locator(".field-validation-error span");
   }
 
   async checkRegisterFormFields() {
@@ -34,8 +34,15 @@ export class RegisterPage extends BasePage {
     await expect(this.registerButton).toBeEnabled();
   }
 
-  async fillRegisterFields(user: { firstName: string; lastName: string; email: string; password: string },
-    confirmPasswordOverride?: string) {
+  async fillRegisterFields(
+    user: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      password: string;
+    },
+    confirmPasswordOverride?: string,
+  ) {
     await this.genderFemale.click();
     await this.firstNameInput.fill(user.firstName);
     await this.lastNameInput.fill(user.lastName);
@@ -43,7 +50,9 @@ export class RegisterPage extends BasePage {
     await this.passwordInput.fill(user.password);
 
     await expect(this.confirmPasswordInput).toBeVisible();
-    await this.confirmPasswordInput.fill(confirmPasswordOverride ?? user.password);
+    await this.confirmPasswordInput.fill(
+      confirmPasswordOverride ?? user.password,
+    );
   }
 
   async register(): Promise<RegisterSuccessPage> {
@@ -51,8 +60,13 @@ export class RegisterPage extends BasePage {
     return new RegisterSuccessPage(this.page);
   }
 
-  async expectFieldValidationError(fieldName: string, message: string | RegExp) {
-    const fieldError = this.page.locator(`span.field-validation-error[data-valmsg-for="${fieldName}"] span`);
+  async expectFieldValidationError(
+    fieldName: string,
+    message: string | RegExp,
+  ) {
+    const fieldError = this.page.locator(
+      `span.field-validation-error[data-valmsg-for="${fieldName}"] span`,
+    );
     await expect(fieldError).toHaveText(message);
   }
 }
