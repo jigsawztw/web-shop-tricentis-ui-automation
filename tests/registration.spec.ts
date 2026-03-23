@@ -32,8 +32,9 @@ test.describe('Регистрация пользователя', () => {
 
 
 
-
     
+
+
 
     await allure.step('Проверить успешную регистрацию', async () => {await successPage.checkSuccess(user.email);})
   });
