@@ -16,7 +16,7 @@ export class RegisterSuccessPage extends BasePage {
     this.logoutLink = page.getByRole('link', { name: 'Log out' });
   }
 
-  async checkSuccess(userEmail: string) {
+  async checkRegisterSuccess(userEmail: string) {
     await expect(this.resultMessage).toHaveText('Your registration completed');
     await expect(this.continueButton).toBeEnabled();
     await expect(this.accountEmail).toHaveText(userEmail);

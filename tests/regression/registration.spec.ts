@@ -23,7 +23,7 @@ test.describe('Регистрация пользователя', () => {
     });
 
     await test.step('Проверить успешную регистрацию', async () => {
-      await successPage.checkSuccess(user.email);
+      await successPage.checkRegisterSuccess(user.email);
     });
   });
 
