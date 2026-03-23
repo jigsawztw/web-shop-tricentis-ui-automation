@@ -1,8 +1,7 @@
 import { test } from '@playwright/test';
-import { UserBuilder } from '../src/helpers/builders/userBuilder';
-import { AppFacade } from '../src/pages/index';
-import { Severity } from 'allure-js-commons';
-import { RegisterSuccessPage } from '../src/pages/register-success.page';
+import { UserBuilder } from '../../src/helpers/builders/userBuilder';
+import { AppFacade } from '../../src/pages/index';
+import { RegisterSuccessPage } from '../../src/pages/register-success.page';
 
 let app: AppFacade;
 let successPage: RegisterSuccessPage;
@@ -16,7 +15,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Зарегистрировать нового пользователя', async () => {
@@ -32,7 +31,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withEmail('@s').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с невалидным email', async () => {
@@ -44,7 +43,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withEmail('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненным email', async () => {
@@ -56,7 +55,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withFirstName('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненным именем', async () => {
@@ -68,7 +67,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withLastName('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненной фамилией', async () => {
@@ -80,7 +79,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withPassword('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с пустым паролем', async () => {
@@ -93,7 +92,7 @@ test.describe('Регистрация пользователя', () => {
     const notMatchedConfirmPassword = user.password + '1';
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с некорректно введенным паролем', async () => {
@@ -110,7 +109,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withPassword('12345').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPage();
+      await app.register.openRegisterPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с коротким паролем', async () => {

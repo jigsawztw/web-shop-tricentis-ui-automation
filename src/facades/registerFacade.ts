@@ -11,7 +11,7 @@ export class RegisterFacade {
     this.registerPage = new RegisterPage(page);
   }
 
-  async openRegisterPage() {
+  async openRegisterPageAndCheckFields() {
     await this.mainPage.open();
     await this.mainPage.goToRegisterPage();
     await this.registerPage.checkRegisterFormFields();

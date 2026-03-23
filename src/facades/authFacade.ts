@@ -11,7 +11,7 @@ export class AuthFacade {
     this.mainPage = new MainPage(page);
   }
 
-  async openLoginPage() {
+  async openLoginPageAndCheckFields() {
     await this.mainPage.open();
     await this.mainPage.goToLoginPage();
     await this.loginPage.checkLoginFormFields();

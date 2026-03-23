@@ -9,7 +9,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   // workers: 1,             // один поток для последовательного выполнения
   reporter: [
-    ['list', { printSteps: true }], //видеть шаги в консоли
+    ['list', { printSteps: false }], //видеть шаги в консоли
     ['html', { outputFolder: 'playwright-report' }], //генерация папки с отчетом в отдельную папку
     [
       'allure-playwright',

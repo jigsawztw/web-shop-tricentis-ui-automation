@@ -1,7 +1,7 @@
 import { test, expect, chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import { UserBuilder } from '../src/helpers/builders/userBuilder';
-import { AppFacade, LoginSuccessPage } from '../src/pages/index';
-import { User } from '../types/user';
+import { UserBuilder } from '../../src/helpers/builders/userBuilder';
+import { AppFacade, LoginSuccessPage } from '../../src/pages/index';
+import { User } from '../../types/user';
 
 let user: User;
 let browser: Browser;
@@ -19,7 +19,7 @@ test.describe('Логин пользователя', () => {
 
     user = new UserBuilder().build();
 
-    await app.register.openRegisterPage();
+    await app.register.openRegisterPageAndCheckFields();
     await app.register.registerUser(user);
 
     await app.auth.logout();
@@ -36,7 +36,7 @@ test.describe('Логин пользователя', () => {
 
   test('TC-LOGIN-01: Успешный логин', async () => {
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPage();
+      await app.auth.openLoginPageAndCheckFields();
     });
 
     await test.step('Авторизовать пользователя', async () => {
@@ -52,7 +52,7 @@ test.describe('Логин пользователя', () => {
     const wrongPassword = user.password + '1';
 
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPage();
+      await app.auth.openLoginPageAndCheckFields();
     });
 
     await test.step('Ошибка авторизации с невалидным паролем', async () => {
@@ -68,7 +68,7 @@ test.describe('Логин пользователя', () => {
     const nonExistentEmail = 'notexisted@mail.ru';
 
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPage();
+      await app.auth.openLoginPageAndCheckFields();
     });
 
     await test.step('Ошибка авторизации с несуществующим email', async () => {
@@ -84,7 +84,7 @@ test.describe('Логин пользователя', () => {
     const invalidUser = { ...user, email: user.email + '1' };
 
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPage();
+      await app.auth.openLoginPageAndCheckFields();
     });
 
     await app.auth.loginUser(invalidUser);
