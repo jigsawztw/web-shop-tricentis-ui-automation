@@ -16,9 +16,14 @@ test.describe('Смоки открытия страниц', () => {
     });
 
     test('TC-SMOKE-11: Открытие страницы регистрации', async () => {
-
         await test.step('Перейти на страницу регистрации и проверить отображение полей', async () => {
             await app.register.openPageAndCheckFields()
+        });
+    });
+
+     test('TC-SMOKE-12: Открытие страницы авторизации', async () => {
+        await test.step('Перейти на страницу авторизации и проверить отображение полей', async () => {
+            await app.auth.openPageAndCheckFields()
         });
     });
 });
