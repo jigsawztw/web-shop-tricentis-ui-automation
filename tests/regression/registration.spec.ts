@@ -95,7 +95,7 @@ test.describe('Регистрация пользователя', () => {
       await app.register.openPageAndCheckFields();
     });
 
-    await test.step('Ошибка регистрации с некорректно введенным паролем', async () => {
+    await test.step('Ошибка регистрации с некорректным паролем', async () => {
       await app.register.expectRegisterValidationError(
         user,
         'ConfirmPassword',

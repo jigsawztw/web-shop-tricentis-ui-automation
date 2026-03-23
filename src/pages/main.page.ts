@@ -6,13 +6,16 @@ export class MainPage extends BasePage {
 
   readonly registerLink: Locator;
   readonly loginLink: Locator;
+  readonly cartLink: Locator;
   readonly welcomeHeader: Locator;
 
 
   constructor(page: Page) {
     super(page);
-    this.registerLink = this.registerLink = page.getByRole('link', { name: 'Register' });
-    this.loginLink = this.loginLink = page.getByRole('link', { name: 'Log in' });
+    this.registerLink = page.getByRole('link', { name: 'Register' });
+    this.loginLink = page.getByRole('link', { name: 'Log in' });
+    this.cartLink = page.locator('.cart-label', { hasText: 'Shopping cart' });
+
     this.welcomeHeader = page.locator('h2.topic-html-content-header');
   }
 
@@ -20,6 +23,7 @@ export class MainPage extends BasePage {
     await this.open();
     await expect(this.registerLink).toBeEnabled();
     await expect(this.loginLink).toBeEnabled();
+    await expect(this.cartLink).toBeEnabled();
     await expect(this.welcomeHeader).toBeVisible();
   }
 
@@ -29,5 +33,9 @@ export class MainPage extends BasePage {
 
   async goToLoginPage() {
     await this.loginLink.click();
+  }
+
+  async goToCartPage() {
+    await this.cartLink.click();
   }
 }

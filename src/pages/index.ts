@@ -5,3 +5,5 @@ export { RegisterSuccessPage } from './register-success.page';
 export { AppFacade } from '../facades/appFacade';
 export { LoginPage } from '../pages/login.page';
 export { LoginSuccessPage } from '../pages/login-sucess.page';
+export { CartPage } from '../pages/cart.page';
+export { WishlistPage } from '../pages/wishlist.page';
