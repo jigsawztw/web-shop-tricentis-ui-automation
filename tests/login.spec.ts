@@ -56,7 +56,7 @@ test.describe('Логин пользователя', () => {
   });
 
   test('TC-REGRESSION-LOGIN-03: Email не существует', async () => {
-    await allure.story('notexisted user');
+    await allure.story('not existed user');
     await app.auth.openLoginPage();
     const nonExistentEmail = 'notexisted@mail.ru';
     await app.auth.loginUserWithError(nonExistentEmail, user.password, /no customer account found/i);
