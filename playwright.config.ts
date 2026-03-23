@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as os from 'os';
 const reportFolder = process.env.PLAYWRIGHT_REPORT || `playwright-report-${Date.now()}`;
 
 export default defineConfig({
@@ -10,8 +11,18 @@ export default defineConfig({
   reporter: [
     ['list', { printSteps: true }], //видеть шаги в консоли
     ['html', { outputFolder: 'playwright-report' }], //генерация папки с отчетом в отдельную папку
-    ['allure-playwright'],
-  ], // <-- подключаем Allure
+    [
+      'allure-playwright',
+      {
+        environmentInfo: {
+          os_platform: os.platform(),
+          os_release: os.release(),
+          os_version: os.version(),
+          node_version: process.version,
+        },
+      },
+    ],
+  ],
   use: {
     screenshot: 'only-on-failure',
     video: 'retain-on-failure', // если нужны видео
