@@ -1,6 +1,8 @@
 import { test } from "@playwright/test";
 import { UserBuilder } from "../src/helpers/builders/userBuilder";
 import { AppFacade } from "../src/pages/index";
+import { allure } from "allure-playwright";
+import { Severity } from "allure-js-commons";
 
 let app: AppFacade;
 test.describe("Регистрация пользователя", () => {
@@ -9,6 +11,8 @@ test.describe("Регистрация пользователя", () => {
   });
 
   test("TC-REGRESSION-REGISTER-04: Успешная регистрация пользователя", async () => {
+    await allure.owner("Ivan Osipov")
+    await allure.severity(Severity.CRITICAL);
     const user = new UserBuilder().build();
 
     await app.register.openRegisterPage();

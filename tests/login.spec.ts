@@ -6,9 +6,12 @@ import {
   BrowserContext,
   Page,
 } from "@playwright/test";
+import {allure } from "allure-playwright";
+import { Severity } from "allure-js-commons";
 import { UserBuilder } from "../src/helpers/builders/userBuilder";
 import { AppFacade } from "../src/pages/index";
 import { User } from "../types/user";
+import playwrightConfig from "../playwright.config";
 
 let user: User;
 let browser: Browser;
@@ -41,6 +44,8 @@ test.describe("Логин пользователя", () => {
   });
 
   test("TC-REGRESSION-LOGIN-01: Успешный логин", async () => {
+    await allure.owner("Ivan Osipov")
+    await allure.severity(Severity.CRITICAL)
     await app.auth.openLoginPage();
     const successLoginPage = await app.auth.loginUser(user);
     await successLoginPage.checkLoggedIn(user.email);
