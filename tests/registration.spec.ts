@@ -12,12 +12,7 @@ test.describe('Регистрация пользователя', () => {
     app = new AppFacade(page);
   });
 
-  test('TC-REGISTER-04: Успешная регистрация пользователя', async ({ }, testInfo) => {
-    testInfo.annotations.push(
-      { type: 'story', description: 'Successful registration' },
-      { type: 'severity', description: Severity.CRITICAL }
-    );
-
+  test('TC-REGISTER-04: Успешная регистрация пользователя', async ({ }) => {
     const user = new UserBuilder().build();
 
     await test.step('Открыть страницу регистрации', async () => {
