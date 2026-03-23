@@ -1,8 +1,8 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export class BasePage {
   protected page: Page;
-  protected baseUrl = "https://demowebshop.tricentis.com";
+  protected baseUrl = 'https://demowebshop.tricentis.com';
   protected path!: string;
 
   constructor(page: Page) {
@@ -10,9 +10,9 @@ export class BasePage {
   }
 
   async open() {
-    if (!this.path) throw new Error("Path не задан в дочернем классе");
+    if (!this.path) throw new Error('Path не задан в дочернем классе');
     await this.page.goto(`${this.baseUrl}${this.path}`, {
-      waitUntil: "domcontentloaded",
+      waitUntil: 'domcontentloaded',
     });
   }
 }

@@ -1,6 +1,6 @@
-import { Page } from "@playwright/test";
-import { MainPage, RegisterPage } from "../pages";
-import type { User } from "../../types/user";
+import { Page } from '@playwright/test';
+import { MainPage, RegisterPage } from '../pages';
+import type { User } from '../../types/user';
 
 export class RegisterFacade {
   private mainPage: MainPage;
@@ -18,19 +18,11 @@ export class RegisterFacade {
   }
 
   async registerUser(user: User, confirmPassword?: string) {
-    await this.registerPage.fillRegisterFields(
-      user,
-      confirmPassword ?? user.password,
-    );
+    await this.registerPage.fillRegisterFields(user, confirmPassword ?? user.password);
     return await this.registerPage.register();
   }
 
-  async registerUserWithError(
-    user: User,
-    field: string,
-    error: RegExp,
-    confirmPassword?: string,
-  ) {
+  async registerUserWithError(user: User, field: string, error: RegExp, confirmPassword?: string) {
     await this.registerUser(user, confirmPassword);
     await this.registerPage.expectFieldValidationError(field, error);
   }

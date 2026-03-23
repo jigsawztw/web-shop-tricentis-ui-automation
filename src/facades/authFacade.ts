@@ -1,6 +1,6 @@
-import { Page } from "@playwright/test";
-import { LoginPage, MainPage } from "../pages";
-import type { User } from "../../types/user";
+import { Page } from '@playwright/test';
+import { LoginPage, MainPage } from '../pages';
+import type { User } from '../../types/user';
 
 export class AuthFacade {
   private loginPage: LoginPage;
@@ -29,10 +29,10 @@ export class AuthFacade {
   }
 
   async logout() {
-    const logoutButton = this.page.locator("a.ico-logout");
+    const logoutButton = this.page.locator('a.ico-logout');
     if (await logoutButton.isVisible()) {
       await logoutButton.click();
-      await logoutButton.waitFor({ state: "hidden" });
+      await logoutButton.waitFor({ state: 'hidden' });
     }
   }
 }

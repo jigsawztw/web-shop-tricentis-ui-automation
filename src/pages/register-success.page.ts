@@ -1,5 +1,5 @@
-import { BasePage } from "./index";
-import { Page, Locator, expect } from "@playwright/test";
+import { BasePage } from './index';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class RegisterSuccessPage extends BasePage {
   readonly resultMessage: Locator;
@@ -10,14 +10,14 @@ export class RegisterSuccessPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.resultMessage = page.locator(".result");
-    this.continueButton = page.getByRole("button", { name: "Continue" });
-    this.accountEmail = page.locator(".header .account");
-    this.logoutLink = page.getByRole("link", { name: "Log out" });
+    this.resultMessage = page.locator('.result');
+    this.continueButton = page.getByRole('button', { name: 'Continue' });
+    this.accountEmail = page.locator('.header .account');
+    this.logoutLink = page.getByRole('link', { name: 'Log out' });
   }
 
   async checkSuccess(userEmail: string) {
-    await expect(this.resultMessage).toHaveText("Your registration completed");
+    await expect(this.resultMessage).toHaveText('Your registration completed');
     await expect(this.continueButton).toBeEnabled();
     await expect(this.accountEmail).toHaveText(userEmail);
     await expect(this.logoutLink).toBeEnabled();

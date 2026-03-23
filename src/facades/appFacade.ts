@@ -1,6 +1,6 @@
-import { Page } from "@playwright/test";
-import { AuthFacade } from "./authFacade";
-import { RegisterFacade } from "./registerFacade";
+import { Page } from '@playwright/test';
+import { AuthFacade } from './authFacade';
+import { RegisterFacade } from './registerFacade';
 
 export class AppFacade {
   auth: AuthFacade;

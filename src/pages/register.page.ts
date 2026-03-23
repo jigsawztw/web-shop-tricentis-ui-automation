@@ -1,8 +1,8 @@
-import { BasePage, RegisterSuccessPage } from "./index";
-import { Page, Locator, expect } from "@playwright/test";
+import { BasePage, RegisterSuccessPage } from './index';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class RegisterPage extends BasePage {
-  protected path = "/register";
+  protected path = '/register';
 
   readonly registerButton: Locator;
   readonly formTitle: Locator;
@@ -17,15 +17,15 @@ export class RegisterPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.registerButton = page.locator("#register-button");
-    this.formTitle = page.getByText("Your Personal Details");
-    this.genderFemale = page.locator("#gender-female");
-    this.firstNameInput = page.getByLabel("First name");
-    this.lastNameInput = page.getByLabel("Last name");
-    this.emailInput = page.getByLabel("Email");
+    this.registerButton = page.locator('#register-button');
+    this.formTitle = page.getByText('Your Personal Details');
+    this.genderFemale = page.locator('#gender-female');
+    this.firstNameInput = page.getByLabel('First name');
+    this.lastNameInput = page.getByLabel('Last name');
+    this.emailInput = page.getByLabel('Email');
     this.passwordInput = page.locator('input[name="Password"]');
     this.confirmPasswordInput = page.locator('input[name="ConfirmPassword"]');
-    this.emailError = page.locator(".field-validation-error span");
+    this.emailError = page.locator('.field-validation-error span');
   }
 
   async checkRegisterFormFields() {
@@ -50,9 +50,7 @@ export class RegisterPage extends BasePage {
     await this.passwordInput.fill(user.password);
 
     await expect(this.confirmPasswordInput).toBeVisible();
-    await this.confirmPasswordInput.fill(
-      confirmPasswordOverride ?? user.password,
-    );
+    await this.confirmPasswordInput.fill(confirmPasswordOverride ?? user.password);
   }
 
   async register(): Promise<RegisterSuccessPage> {
@@ -60,13 +58,8 @@ export class RegisterPage extends BasePage {
     return new RegisterSuccessPage(this.page);
   }
 
-  async expectFieldValidationError(
-    fieldName: string,
-    message: string | RegExp,
-  ) {
-    const fieldError = this.page.locator(
-      `span.field-validation-error[data-valmsg-for="${fieldName}"] span`,
-    );
+  async expectFieldValidationError(fieldName: string, message: string | RegExp) {
+    const fieldError = this.page.locator(`span.field-validation-error[data-valmsg-for="${fieldName}"] span`);
     await expect(fieldError).toHaveText(message);
   }
 }
