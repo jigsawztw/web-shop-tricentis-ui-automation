@@ -1,8 +1,8 @@
-import { BasePage, LoginSuccessPage } from "./index";
-import { Page, Locator, expect } from "@playwright/test";
+import { BasePage, LoginSuccessPage } from './index';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage extends BasePage {
-  protected path = "/login";
+  protected path = '/login';
 
   readonly loginButton: Locator;
   readonly formTitle: Locator;
@@ -14,14 +14,14 @@ export class LoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.emailInput = page.locator("#Email");
-    this.formTitle = page.getByRole("heading", {
-      name: "Welcome, Please Sign In!",
+    this.emailInput = page.locator('#Email');
+    this.formTitle = page.getByRole('heading', {
+      name: 'Welcome, Please Sign In!',
     });
-    this.passwordInput = page.locator("#Password");
-    this.rememberMeButton = page.locator("#RememberMe");
-    this.forgotPasswordLink = page.locator("#forgot-password");
-    this.loginButton = page.getByRole("button", { name: "Log in" });
+    this.passwordInput = page.locator('#Password');
+    this.rememberMeButton = page.locator('#RememberMe');
+    this.forgotPasswordLink = page.locator('#forgot-password');
+    this.loginButton = page.getByRole('button', { name: 'Log in' });
   }
 
   async checkLoginFormFields() {
@@ -41,7 +41,7 @@ export class LoginPage extends BasePage {
   }
 
   async expectLoginValidationError(message: string | RegExp) {
-    const errorBlock = this.page.locator(".validation-summary-errors");
+    const errorBlock = this.page.locator('.validation-summary-errors');
 
     await expect(errorBlock).toBeVisible();
     await expect(errorBlock).toContainText(message);

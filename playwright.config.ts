@@ -1,20 +1,20 @@
-import { defineConfig, devices } from "@playwright/test";
-const reportFolder =
-  process.env.PLAYWRIGHT_REPORT || `playwright-report-${Date.now()}`;
+import { defineConfig, devices } from '@playwright/test';
+const reportFolder = process.env.PLAYWRIGHT_REPORT || `playwright-report-${Date.now()}`;
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: './tests',
   fullyParallel: true, // параллельный запуск
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   // workers: 1,             // один поток для последовательного выполнения
   reporter: [
-    ["list", { printSteps: true }], //видеть шаги в консоли
-    ["html", { outputFolder: "playwright-report" }], //генерация папки с отчетом в отдельную папку
-    ["allure-playwright"],], // <-- подключаем Allure 
+    ['list', { printSteps: true }], //видеть шаги в консоли
+    ['html', { outputFolder: 'playwright-report' }], //генерация папки с отчетом в отдельную папку
+    ['allure-playwright'],
+  ], // <-- подключаем Allure
   use: {
-    screenshot: "only-on-failure",
-    video: "retain-on-failure", // если нужны видео
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure', // если нужны видео
     launchOptions: {
       /*  slowMo: 500, */
       // замедляем действия для наглядного дебага
@@ -23,9 +23,9 @@ export default defineConfig({
 
   projects: [
     {
-      name: "chromium",
+      name: 'chromium',
       use: {
-        ...devices["Desktop Chrome"],
+        ...devices['Desktop Chrome'],
         launchOptions: {
           headless: true,
           /*  slowMo: 500, */
