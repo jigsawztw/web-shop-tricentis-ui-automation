@@ -29,7 +29,9 @@ test.describe('Регистрация пользователя', () => {
       successPage = await app.register.registerUser(user);
     });
 
-    await allure.step('Проверить успешную регистрацию', async () => {await successPage.checkSuccess(user.email);})
+    await allure.step('Проверить успешную регистрацию', async () => {
+              await successPage.checkSuccess(user.email);
+    });
   });
 
   test('TC-REGRESSION-REGISTER-05: Невалидный email', async () => {
