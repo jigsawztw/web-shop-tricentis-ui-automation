@@ -33,7 +33,5 @@
     "prettier": "^3.8.1",
     "simple-git-hooks": "^2.13.1"
   },
-  "simple-git-hooks": {
-    "pre-commit": "npx prettier --write \"**/*.{ts,tsx,js,jsx}\""
-  }
+  "pre-commit": "npx prettier --write \"src/**/*.{ts,tsx,js,jsx}\" \"tests/**/*.{ts,tsx,js,jsx}\" \"e2e/**/*.{ts,tsx}\""
 }
