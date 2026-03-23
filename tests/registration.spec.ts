@@ -17,7 +17,7 @@ test.describe('Регистрация пользователя', () => {
     app = new AppFacade(page);
   });
 
-  test('TC-REGRESSION-REGISTER-04: Успешная регистрация пользователя', async () => {
+  test('TC-REGISTER-04: Успешная регистрация пользователя', async () => {
     await allure.story('Successful registration');
     await allure.severity(Severity.CRITICAL);
     const user = new UserBuilder().build();
@@ -34,7 +34,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-05: Невалидный email', async () => {
+  test('TC-REGISTER-05: Невалидный email', async () => {
     await allure.story('invalid email');
     const user = new UserBuilder().withEmail('@s').build();
 
@@ -46,7 +46,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-06: Email не заполнен', async () => {
+  test('TC-REGISTER-06: Email не заполнен', async () => {
     await allure.story('empty email');
     const user = new UserBuilder().withEmail('').build(); //пустой email
 
@@ -58,7 +58,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-07: Имя не заполнено', async () => {
+  test('TC-REGISTER-07: Имя не заполнено', async () => {
     await allure.story('empty name');
     const user = new UserBuilder().withFirstName('').build(); //пустое имя
 
@@ -70,7 +70,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-08: Фамилия не заполнена', async () => {
+  test('TC-REGISTER-08: Фамилия не заполнена', async () => {
     await allure.story('empty lastname');
     const user = new UserBuilder().withLastName('').build(); //пустая фамилия
 
@@ -82,7 +82,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-09: Пароль не заполнен', async () => {
+  test('TC-REGISTER-09: Пароль не заполнен', async () => {
     await allure.story('empty password');
     const user = new UserBuilder().withPassword('').build(); //пустой пароль
 
@@ -94,7 +94,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-10: Пароль не совпадает', async () => {
+  test('TC-REGISTER-10: Пароль не совпадает', async () => {
     await allure.story('not confirmed password');
     const user = new UserBuilder().build();
     const notMatchedConfirmPassword = user.password + '1';
@@ -112,7 +112,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-REGISTER-11: Пароль не проходит по длине', async () => {
+  test('TC-REGISTER-11: Пароль не проходит по длине', async () => {
     await allure.story('invalid password');
     const user = new UserBuilder().withPassword('12345').build(); //6 символов минимум
 

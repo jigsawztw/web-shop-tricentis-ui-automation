@@ -40,7 +40,7 @@ test.describe('Логин пользователя', () => {
     await browser.close();
   });
 
-  test('TC-REGRESSION-LOGIN-01: Успешный логин', async () => {
+  test('TC--LOGIN-01: Успешный логин', async () => {
     await allure.story('Successful login');
     await allure.owner('Ivan Osipov');
     await allure.severity(Severity.CRITICAL);
@@ -55,7 +55,7 @@ test.describe('Логин пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-LOGIN-02: Невалидный пароль', async () => {
+  test('TC-LOGIN-02: Невалидный пароль', async () => {
     await allure.story('Invalid password');
     await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
@@ -66,7 +66,7 @@ test.describe('Логин пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-LOGIN-03: Email не существует', async () => {
+  test('TC-LOGIN-03: Email не существует', async () => {
     await allure.story('not existed user');
     await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
@@ -77,7 +77,7 @@ test.describe('Логин пользователя', () => {
     });
   });
 
-  test('TC-REGRESSION-LOGIN-04: Email не валидный', async () => {
+  test('TC-LOGIN-04: Email не валидный', async () => {
     await allure.story('Invalid email');
     await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
