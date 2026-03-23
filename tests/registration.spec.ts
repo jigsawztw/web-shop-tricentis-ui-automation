@@ -40,7 +40,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с невалидным email', async () => {
+    await allure.step('Ошибка регистрации с невалидным email', async () => {
       await app.register.registerUserWithError(user, 'Email', /wrong email/i);
     });
   });
@@ -52,7 +52,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с незаполненным email', async () => {
+    await allure.step('Ошибка регистрации с незаполненным email', async () => {
       await app.register.registerUserWithError(user, 'Email', /email is required./i);
     });
   });
@@ -64,7 +64,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с незаполненным именем', async () => {
+    await allure.step('Ошибка регистрации с незаполненным именем', async () => {
       await app.register.registerUserWithError(user, 'FirstName', /first name is required./i);
     });
   });
@@ -76,7 +76,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с незаполненной фамилией', async () => {
+    await allure.step('Ошибка регистрации с незаполненной фамилией', async () => {
       await app.register.registerUserWithError(user, 'LastName', /last name is required./i);
     });
   });
@@ -88,7 +88,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с пустым паролем', async () => {
+    await allure.step('Ошибка регистрации с пустым паролем', async () => {
       await app.register.registerUserWithError(user, 'Password', /password is required./i);
     });
   });
@@ -101,7 +101,7 @@ test.describe('Регистрация пользователя', () => {
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с некорректно введенным паролем', async () => {
+    await allure.step('Ошибка регистрации с некорректно введенным паролем', async () => {
       await app.register.registerUserWithError(
         user,
         'ConfirmPassword',
@@ -112,13 +112,13 @@ test.describe('Регистрация пользователя', () => {
   });
 
   test('TC-REGRESSION-REGISTER-11: Пароль не проходит по длине', async () => {
-    await allure.story('not valid password');
+    await allure.story('invalid password');
     const user = new UserBuilder().withPassword('12345').build(); //6 символов минимум
 
     await allure.step('Открыть страницу регистрации', async () => {
       await app.register.openRegisterPage();
     });
-    await allure.step('Попытка регистрации с коротким паролем', async () => {
+    await allure.step('Ошибка регистрации с коротким паролем', async () => {
       await app.register.registerUserWithError(user, 'Password', /the password should have at least 6 characters./i);
     });
   });
