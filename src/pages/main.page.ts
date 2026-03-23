@@ -16,7 +16,7 @@ export class MainPage extends BasePage {
     this.welcomeHeader = page.locator('h2.topic-html-content-header');
   }
 
-  async openMainPageAndCheckFields() {
+  async openPageAndCheckFields() {
     await this.open();
     await expect(this.registerLink).toBeEnabled();
     await expect(this.loginLink).toBeEnabled();

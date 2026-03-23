@@ -58,7 +58,7 @@ export class RegisterPage extends BasePage {
     return new RegisterSuccessPage(this.page);
   }
 
-  async expectFieldValidationError(fieldName: string, message: string | RegExp) {
+  async expectValidationError(fieldName: string, message: string | RegExp) {
     const fieldError = this.page.locator(`span.field-validation-error[data-valmsg-for="${fieldName}"] span`);
     await expect(fieldError).toHaveText(message);
   }

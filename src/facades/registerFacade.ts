@@ -11,7 +11,7 @@ export class RegisterFacade {
     this.registerPage = new RegisterPage(page);
   }
 
-  async openRegisterPageAndCheckFields() {
+  async openPageAndCheckFields() {
     await this.mainPage.open();
     await this.mainPage.goToRegisterPage();
     await this.registerPage.checkRegisterFormFields();
@@ -22,8 +22,8 @@ export class RegisterFacade {
     return await this.registerPage.register();
   }
 
-  async registerUserWithError(user: User, field: string, error: RegExp, confirmPassword?: string) {
+  async expectRegisterValidationError(user: User, field: string, error: RegExp, confirmPassword?: string) {
     await this.registerUser(user, confirmPassword);
-    await this.registerPage.expectFieldValidationError(field, error);
+    await this.registerPage.expectValidationError(field, error);
   }
 }

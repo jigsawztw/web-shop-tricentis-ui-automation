@@ -15,7 +15,7 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Зарегистрировать нового пользователя', async () => {
@@ -31,11 +31,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withEmail('@s').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с невалидным email', async () => {
-      await app.register.registerUserWithError(user, 'Email', /wrong email/i);
+      await app.register.expectRegisterValidationError(user, 'Email', /wrong email/i);
     });
   });
 
@@ -43,11 +43,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withEmail('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненным email', async () => {
-      await app.register.registerUserWithError(user, 'Email', /email is required./i);
+      await app.register.expectRegisterValidationError(user, 'Email', /email is required./i);
     });
   });
 
@@ -55,11 +55,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withFirstName('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненным именем', async () => {
-      await app.register.registerUserWithError(user, 'FirstName', /first name is required./i);
+      await app.register.expectRegisterValidationError(user, 'FirstName', /first name is required./i);
     });
   });
 
@@ -67,11 +67,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withLastName('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с незаполненной фамилией', async () => {
-      await app.register.registerUserWithError(user, 'LastName', /last name is required./i);
+      await app.register.expectRegisterValidationError(user, 'LastName', /last name is required./i);
     });
   });
 
@@ -79,11 +79,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withPassword('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с пустым паролем', async () => {
-      await app.register.registerUserWithError(user, 'Password', /password is required./i);
+      await app.register.expectRegisterValidationError(user, 'Password', /password is required./i);
     });
   });
 
@@ -92,11 +92,11 @@ test.describe('Регистрация пользователя', () => {
     const notMatchedConfirmPassword = user.password + '1';
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с некорректно введенным паролем', async () => {
-      await app.register.registerUserWithError(
+      await app.register.expectRegisterValidationError(
         user,
         'ConfirmPassword',
         /the password and confirmation password do not match./i,
@@ -109,11 +109,11 @@ test.describe('Регистрация пользователя', () => {
     const user = new UserBuilder().withPassword('12345').build();
 
     await test.step('Открыть страницу регистрации', async () => {
-      await app.register.openRegisterPageAndCheckFields();
+      await app.register.openPageAndCheckFields();
     });
 
     await test.step('Ошибка регистрации с коротким паролем', async () => {
-      await app.register.registerUserWithError(
+      await app.register.expectRegisterValidationError(
         user,
         'Password',
         /the password should have at least 6 characters./i

@@ -19,7 +19,7 @@ test.describe('Логин пользователя', () => {
 
     user = new UserBuilder().build();
 
-    await app.register.openRegisterPageAndCheckFields();
+    await app.register.openPageAndCheckFields();
     await app.register.registerUser(user);
 
     await app.auth.logout();
@@ -36,11 +36,11 @@ test.describe('Логин пользователя', () => {
 
   test('TC-LOGIN-01: Успешный логин', async () => {
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPageAndCheckFields();
+      await app.auth.openPageAndCheckFields();
     });
 
     await test.step('Авторизовать пользователя', async () => {
-      successLoginPage = await app.auth.loginUser(user);
+      successLoginPage = await app.auth.loginUser(user.email, user.password);
     });
 
     await test.step('Проверить авторизацию пользователя', async () => {
@@ -52,11 +52,11 @@ test.describe('Логин пользователя', () => {
     const wrongPassword = user.password + '1';
 
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPageAndCheckFields();
+      await app.auth.openPageAndCheckFields();
     });
 
     await test.step('Ошибка авторизации с невалидным паролем', async () => {
-      await app.auth.loginUserWithError(
+      await app.auth.expectLoginValidationError(
         user.email,
         wrongPassword,
         /the credentials provided are incorrect/i
@@ -68,11 +68,11 @@ test.describe('Логин пользователя', () => {
     const nonExistentEmail = 'notexisted@mail.ru';
 
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPageAndCheckFields();
+      await app.auth.openPageAndCheckFields();
     });
 
     await test.step('Ошибка авторизации с несуществующим email', async () => {
-      await app.auth.loginUserWithError(
+      await app.auth.expectLoginValidationError(
         nonExistentEmail,
         user.password,
         /no customer account found/i
@@ -81,13 +81,11 @@ test.describe('Логин пользователя', () => {
   });
 
   test('TC-LOGIN-04: Email не валидный', async () => {
-    const invalidUser = { ...user, email: user.email + '1' };
-
     await test.step('Открыть страницу авторизации', async () => {
-      await app.auth.openLoginPageAndCheckFields();
+      await app.auth.openPageAndCheckFields();
     });
 
-    await app.auth.loginUser(invalidUser);
+    await app.auth.loginUser(user.email + '1', user.password);
 
     await test.step('Ошибка авторизации с невалидным email', async () => {
       const emailError = page.locator('span.field-validation-error', {

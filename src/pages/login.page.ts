@@ -40,7 +40,7 @@ export class LoginPage extends BasePage {
     return new LoginSuccessPage(this.page);
   }
 
-  async expectLoginValidationError(message: string | RegExp) {
+  async expectValidationError(message: string | RegExp) {
     const errorBlock = this.page.locator('.validation-summary-errors');
 
     await expect(errorBlock).toBeVisible();

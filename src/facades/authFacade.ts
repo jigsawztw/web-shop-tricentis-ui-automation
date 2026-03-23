@@ -11,21 +11,20 @@ export class AuthFacade {
     this.mainPage = new MainPage(page);
   }
 
-  async openLoginPageAndCheckFields() {
+  async openPageAndCheckFields() {
     await this.mainPage.open();
     await this.mainPage.goToLoginPage();
     await this.loginPage.checkLoginFormFields();
   }
 
-  async loginUser(user: User) {
-    await this.loginPage.fillLoginFields(user);
-    return await this.loginPage.login();
-  }
+  async loginUser(email: string, password: string) {
+  await this.loginPage.fillLoginFields({ email, password } as User);
+  return await this.loginPage.login();
+}
 
-  async loginUserWithError(email: string, password: string, error: RegExp) {
-    await this.loginPage.fillLoginFields({ email, password } as User);
-    await this.loginPage.login();
-    await this.loginPage.expectLoginValidationError(error);
+  async expectLoginValidationError(email: string, password: string, error: RegExp) {
+    await this.loginUser(email, password);
+    await this.loginPage.expectValidationError(error);
   }
 
   async logout() {
