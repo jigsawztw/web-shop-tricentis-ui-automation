@@ -2,7 +2,7 @@ import { test, expect, chromium, Browser, BrowserContext, Page } from '@playwrig
 import { allure } from 'allure-playwright';
 import { Severity } from 'allure-js-commons';
 import { UserBuilder } from '../src/helpers/builders/userBuilder';
-import { AppFacade } from '../src/pages/index';
+import { AppFacade, LoginSuccessPage } from '../src/pages/index';
 import { User } from '../types/user';
 import playwrightConfig from '../playwright.config';
 
@@ -11,6 +11,7 @@ let browser: Browser;
 let context: BrowserContext;
 let page: Page;
 let app: AppFacade;
+let successLoginPage: LoginSuccessPage;
 
 test.describe('Логин пользователя', () => {
   test.beforeAll(async () => {
@@ -43,33 +44,51 @@ test.describe('Логин пользователя', () => {
     await allure.story('Successful login');
     await allure.owner('Ivan Osipov');
     await allure.severity(Severity.CRITICAL);
+    await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
-    const successLoginPage = await app.auth.loginUser(user);
+    });
+    await allure.step('Авторизовать пользователя', async () => {
+    successLoginPage = await app.auth.loginUser(user);
+    });
+    await allure.step('Проверить авторизацию пользователя', async () => {
     await successLoginPage.checkLoggedIn(user.email);
+    });
   });
 
   test('TC-REGRESSION-LOGIN-02: Невалидный пароль', async () => {
     await allure.story('Invalid password');
+    await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
+    });
     const wrongPassword = user.password + '1';
+    await allure.step('Ошибка авторизации с невалидным паролем', async () => {
     await app.auth.loginUserWithError(user.email, wrongPassword, /the credentials provided are incorrect/i);
+    });
   });
 
   test('TC-REGRESSION-LOGIN-03: Email не существует', async () => {
     await allure.story('not existed user');
+    await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
+    });
     const nonExistentEmail = 'notexisted@mail.ru';
+    await allure.step('Ошибка авторизации с несуществующим email', async () => {
     await app.auth.loginUserWithError(nonExistentEmail, user.password, /no customer account found/i);
+    });
   });
 
   test('TC-REGRESSION-LOGIN-04: Email не валидный', async () => {
     await allure.story('Invalid email');
+    await allure.step('Открыть страницу авторизации', async () => {
     await app.auth.openLoginPage();
+    });
     const invalidUser = { ...user, email: user.email + '1' };
     await app.auth.loginUser(invalidUser);
+    await allure.step('Ошибка авторизации с невалидным email', async () => {
     const emailError = page.locator('span.field-validation-error', {
       hasText: 'Please enter a valid email address.',
     });
     await expect(emailError).toBeVisible();
+  });
   });
 });
