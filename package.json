@@ -9,7 +9,7 @@
     "debug": "npx playwright test --debug",
     "report:html": "npx playwright show-report",
     "report:allure": "allure serve allure-results",
-    "prepare": "husky install"
+    "prepare": "if [ -z \"$CI\" ]; then husky install; fi"
   },
   "repository": {
     "type": "git",
