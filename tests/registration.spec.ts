@@ -7,6 +7,7 @@ import { Severity } from "allure-js-commons";
 let app: AppFacade;
 test.describe("Регистрация пользователя", () => {
   test.beforeEach(async ({ page }) => {
+    await allure.tags("regression");
     app = new AppFacade(page);
   });
 

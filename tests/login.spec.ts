@@ -35,6 +35,7 @@ test.describe("Логин пользователя", () => {
   });
 
   test.beforeEach(async () => {
+    await allure.tags("regression");
     app = new AppFacade(page);
     await app.auth.logout();
   });
