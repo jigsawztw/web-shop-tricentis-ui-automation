@@ -35,6 +35,8 @@ test.describe("Логин пользователя", () => {
   });
 
   test.beforeEach(async () => {
+    await allure.epic("Authentication");
+    await allure.feature("Login");
     await allure.tags("regression");
     app = new AppFacade(page);
     await app.auth.logout();
@@ -45,6 +47,7 @@ test.describe("Логин пользователя", () => {
   });
 
   test("TC-REGRESSION-LOGIN-01: Успешный логин", async () => {
+    await allure.story("Successful login");
     await allure.owner("Ivan Osipov")
     await allure.severity(Severity.CRITICAL)
     await app.auth.openLoginPage();
@@ -53,6 +56,7 @@ test.describe("Логин пользователя", () => {
   });
 
   test("TC-REGRESSION-LOGIN-02: Невалидный пароль", async () => {
+    await allure.story("Invalid password");
     await app.auth.openLoginPage();
     const wrongPassword = user.password + "1";
     await app.auth.loginUserWithError(
@@ -63,6 +67,7 @@ test.describe("Логин пользователя", () => {
   });
 
   test("TC-REGRESSION-LOGIN-03: Email не существует", async () => {
+    await allure.story("notexisted user");
     await app.auth.openLoginPage();
     const nonExistentEmail = "notexisted@mail.ru";
     await app.auth.loginUserWithError(
@@ -73,6 +78,7 @@ test.describe("Логин пользователя", () => {
   });
 
   test("TC-REGRESSION-LOGIN-04: Email не валидный", async () => {
+    await allure.story("Invalid email");
     await app.auth.openLoginPage();
     const invalidUser = { ...user, email: user.email + "1" };
     await app.auth.loginUser(invalidUser);
