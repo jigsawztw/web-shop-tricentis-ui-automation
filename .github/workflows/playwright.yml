@@ -78,7 +78,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report
-
+          name: pages-${{ matrix.project }}-shard-${{ env.SAFE_SHARD }}
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
