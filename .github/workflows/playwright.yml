@@ -81,62 +81,64 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Allure CLI
-        run: npm install -g allure-commandline
-
-      - uses: actions/download-artifact@v4
+      - name: Download Allure artifacts for Chromium
+        uses: actions/download-artifact@v4
         with:
           name: allure-report-chromium-shard-1-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-chromium-shard-2-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-chromium-shard-3-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-chromium-shard-4-4
-          path: merged-allure
+          path: allure-results
 
-      - uses: actions/download-artifact@v4
+      - name: Download Allure artifacts for Firefox
+        uses: actions/download-artifact@v4
         with:
           name: allure-report-firefox-shard-1-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-firefox-shard-2-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-firefox-shard-3-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-firefox-shard-4-4
-          path: merged-allure
+          path: allure-results
 
-      - uses: actions/download-artifact@v4
+      - name: Download Allure artifacts for Webkit
+        uses: actions/download-artifact@v4
         with:
           name: allure-report-webkit-shard-1-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-webkit-shard-2-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-webkit-shard-3-4
-          path: merged-allure
+          path: allure-results
       - uses: actions/download-artifact@v4
         with:
           name: allure-report-webkit-shard-4-4
-          path: merged-allure
+          path: allure-results
 
-      - name: Generate merged Allure report
+      - name: Merge Allure results
         run: |
+          mkdir merged-allure
+          cp -r allure-results/* merged-allure/
           allure generate merged-allure --clean -o merged-allure-report
 
       - name: Upload Pages artifact
