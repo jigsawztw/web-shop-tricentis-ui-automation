@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4] #шарды
-        project: [chromium, firefox, webkit] #браузеры
+        shard: [1/4, 2/4, 3/4, 4/4] # шарды
+        project: [chromium, firefox, webkit] # браузеры
 
     steps:
       - uses: actions/checkout@v4
@@ -78,8 +78,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report
-          name: pages-${{ matrix.project }}-shard-${{ env.SAFE_SHARD }}
-          
+          name: github-pages
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
