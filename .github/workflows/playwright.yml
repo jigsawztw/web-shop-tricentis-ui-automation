@@ -71,13 +71,74 @@ jobs:
           path: allure-report
           retention-days: 30
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+  pages-deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-chromium-shard-1-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-chromium-shard-2-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-chromium-shard-3-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-chromium-shard-4-4
+          path: merged-allure
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-firefox-shard-1-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-firefox-shard-2-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-firefox-shard-3-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-firefox-shard-4-4
+          path: merged-allure
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-webkit-shard-1-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-webkit-shard-2-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-webkit-shard-3-4
+          path: merged-allure
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-report-webkit-shard-4-4
+          path: merged-allure
+
+      - name: Generate merged Allure report
+        run: |
+          allure generate merged-allure --clean -o merged-allure-report
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: allure-report
+          path: merged-allure-report
           name: github-pages
 
       - name: Deploy to GitHub Pages
