@@ -18,9 +18,9 @@ export class AuthFacade {
   }
 
   async loginUser(email: string, password: string) {
-  await this.loginPage.fillLoginFields({ email, password } as User);
-  return await this.loginPage.login();
-}
+    await this.loginPage.fillLoginFields({ email, password } as User);
+    return await this.loginPage.login();
+  }
 
   async expectLoginValidationError(email: string, password: string, error: RegExp) {
     await this.loginUser(email, password);

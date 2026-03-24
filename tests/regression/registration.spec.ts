@@ -39,7 +39,7 @@ test.describe('Регистрация пользователя', () => {
     });
   });
 
-  test('TC-REGISTER-06: Email не заполнен', async ({ }) => {
+  test('TC-REGISTER-06: Email не заполнен', async ({}) => {
     const user = new UserBuilder().withEmail('').build();
 
     await test.step('Открыть страницу регистрации', async () => {
@@ -116,7 +116,7 @@ test.describe('Регистрация пользователя', () => {
       await app.register.expectRegisterValidationError(
         user,
         'Password',
-        /the password should have at least 6 characters./i
+        /the password should have at least 6 characters./i,
       );
     });
   });

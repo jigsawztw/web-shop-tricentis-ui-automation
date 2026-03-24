@@ -9,7 +9,6 @@ export class MainPage extends BasePage {
   readonly cartLink: Locator;
   readonly welcomeHeader: Locator;
 
-
   constructor(page: Page) {
     super(page);
     this.registerLink = page.getByRole('link', { name: 'Register' });

@@ -56,11 +56,7 @@ test.describe('Логин пользователя', () => {
     });
 
     await test.step('Ошибка авторизации с невалидным паролем', async () => {
-      await app.auth.expectLoginValidationError(
-        user.email,
-        wrongPassword,
-        /the credentials provided are incorrect/i
-      );
+      await app.auth.expectLoginValidationError(user.email, wrongPassword, /the credentials provided are incorrect/i);
     });
   });
 
@@ -72,11 +68,7 @@ test.describe('Логин пользователя', () => {
     });
 
     await test.step('Ошибка авторизации с несуществующим email', async () => {
-      await app.auth.expectLoginValidationError(
-        nonExistentEmail,
-        user.password,
-        /no customer account found/i
-      );
+      await app.auth.expectLoginValidationError(nonExistentEmail, user.password, /no customer account found/i);
     });
   });
 
