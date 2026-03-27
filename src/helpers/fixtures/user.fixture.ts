@@ -6,7 +6,7 @@ import { User } from '../../../types/user';
 type MyFixtures = {
   app: AppFacade;
   registeredUser: User;
-  user: User;
+  baseBuilder: UserBuilder;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -15,9 +15,9 @@ export const test = base.extend<MyFixtures>({
     await use(app);
   },
 
-  user: async ({}, use) => {
-    const user = new UserBuilder().build();
-    await use(user);
+  baseBuilder: async ({}, use) => {
+    const baseBuilder = new UserBuilder();
+    await use(baseBuilder);
   },
 
   registeredUser: async ({ app }, use) => {
