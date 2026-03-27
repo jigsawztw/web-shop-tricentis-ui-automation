@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        shard: [1/2, 2/2]  # шарды
-        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] #браузеры
+        shard: [1/2, 2/2]  # 2 шарда на браузер
+        project: [chromium, webkit, "Google Chrome", "Mobile Safari"]
 
     steps:
       - uses: actions/checkout@v4
@@ -86,7 +86,7 @@ jobs:
       - name: Download all existing allure-results artifacts
         run: |
           projects=(chromium webkit "Google Chrome" "Mobile Safari")
-          shards=(1-2 2-2)  # теперь по 2 шарда
+          shards=(1-2 2-2)
           for project in "${projects[@]}"; do
             for shard in "${shards[@]}"; do
               artifact_name="allure-results-${project}-shard-${shard}"
@@ -95,13 +95,26 @@ jobs:
             done
           done
 
+      - name: Check merged-results
+        run: |
+          if [ -z "$(ls -A merged-results 2>/dev/null)" ]; then
+            echo "No allure-results found, skipping report generation"
+            mkdir merged-allure-report
+            exit 0
+          else
+            echo "Allure results found, generating report"
+          fi
+
       - name: Generate merged Allure report
         run: allure generate merged-results --clean -o merged-allure-report
+
+      - name: List merged report files
+        run: ls -R merged-allure-report || echo "Folder empty"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: merged-allure-report/*   # важно для работы index.html в корне
+          path: merged-allure-report/*  # важно для index.html в корне
           name: github-pages
 
       - name: Deploy to GitHub Pages
