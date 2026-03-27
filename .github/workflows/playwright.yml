@@ -46,7 +46,7 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          npx playwright test --shard=${{ matrix.shard }} --project=${{ matrix.project }} --workers=2
+          npx playwright test --shard=${{ matrix.shard }} --project="${{ matrix.project }}" --workers=2
 
       - name: Generate Allure report
         run: allure generate allure-results --clean -o allure-report || true
