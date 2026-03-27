@@ -10,21 +10,6 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    name: ${{ matrix.project }} | shard ${{ matrix.shard }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1, 2, 3, 4]
-        project:
-          [
-            chromium,
-            webkit,
-            "Mobile Chrome",
-            "Mobile Safari",
-            "Microsoft Edge",
-            "Google Chrome",
-          ]
 
     permissions:
       contents: read
@@ -32,108 +17,106 @@ jobs:
       id-token: write
       issues: write
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    strategy:
+      matrix:
+        shard: [1/2, 2/2]  # шарды
+        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] #браузеры
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: |
-          npx playwright test \
-            --project="${{ matrix.project }}" \
-            --shard=${{ matrix.shard }}/4
-
-      - name: Upload Allure Results
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
         with:
-          name: allure-${{ matrix.project }}-${{ matrix.shard }}
-          path: allure-results
-          retention-days: 7
-
-  merge-reports:
-    name: Merge Allure Reports
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+          distribution: temurin
+          java-version: 17
 
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Merge Allure results
+      - name: Run Playwright tests
         run: |
-          mkdir merged-results
-          find artifacts -type f -name "*.json" -exec cp {} merged-results \;
+          npx playwright test --shard=${{ matrix.shard }} --project="${{ matrix.project }}" --workers=2
 
-      - name: Generate Allure report
-        run: allure generate merged-results --clean -o allure-report
+      - name: Set safe shard name
+        shell: bash
+        run: echo "SAFE_SHARD=${GITHUB_MATRIX_SHARD//\//-}" >> $GITHUB_ENV
+        env:
+          GITHUB_MATRIX_SHARD: ${{ matrix.shard }}
 
-      - name: Upload final report
+      - name: Upload Allure results
         uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
-          name: final-allure-report
-          path: allure-report
+          name: allure-results-${{ matrix.project }}-shard-${{ env.SAFE_SHARD }}
+          path: allure-results
+          retention-days: 30
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: merge-reports
+  pages-deploy:
     runs-on: ubuntu-latest
-
+    needs: test
     permissions:
+      contents: read
       pages: write
       id-token: write
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Download final report
-        uses: actions/download-artifact@v4
-        with:
-          name: final-allure-report
-          path: allure-report
+      - uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - name: Prepare merged-results folder
+        run: mkdir merged-results
+
+      - name: Download all existing allure-results artifacts
+        run: |
+          projects=(chromium webkit "Google Chrome" "Mobile Safari")
+          shards=(1-2 2-2)  # теперь по 2 шарда
+          for project in "${projects[@]}"; do
+            for shard in "${shards[@]}"; do
+              artifact_name="allure-results-${project}-shard-${shard}"
+              echo "Trying to download $artifact_name"
+              gh actions download-artifact "$artifact_name" --dir merged-results 2>/dev/null || echo "$artifact_name not found, skipping"
+            done
+          done
+
+      - name: Generate merged Allure report
+        run: allure generate merged-results --clean -o merged-allure-report
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: allure-report
+          path: merged-allure-report/*   # важно для работы index.html в корне
+          name: github-pages
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Comment report link in PR
+      - name: Comment Allure Report link in PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const url = `https://${context.repo.owner}.github.io/${context.repo.repo}/`;
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Allure Report:\n${url}`
+              body: `Allure Report available here:\n${url}`
             });
