@@ -1,5 +1,4 @@
 import { test } from '../../src/helpers/fixtures/user.fixture';
-import { AppFacade } from '../../src/pages/index';
 
 test.describe('Смоки открытия страниц', () => {
   test('TC-SMOKE-01: Открытие главной страницы', async ({ app }) => {
