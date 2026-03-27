@@ -33,7 +33,8 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
-    "simple-git-hooks": "^2.13.1"
+    "simple-git-hooks": "^2.13.1",
+    "os": "^0.1.2"
   },
   "simple-git-hooks": {
     "pre-commit": "npx prettier --write \"**/*.{ts,tsx,js,jsx}\""

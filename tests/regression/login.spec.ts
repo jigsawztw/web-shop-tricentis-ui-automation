@@ -1,66 +1,44 @@
-import { test, expect, chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import { UserBuilder } from '../../src/helpers/builders/userBuilder';
-import { AppFacade, LoginSuccessPage } from '../../src/pages/index';
-import { User } from '../../types/user';
-
-let user: User;
-let browser: Browser;
-let context: BrowserContext;
-let page: Page;
-let app: AppFacade;
-let successLoginPage: LoginSuccessPage;
+import { expect } from '@playwright/test';
+import { test } from '../../src/helpers/fixtures/user.fixture';
+import { LoginSuccessPage } from '../../src/pages';
 
 test.describe('Логин пользователя', () => {
-  test.beforeAll(async () => {
-    browser = await chromium.launch({ headless: true });
-    context = await browser.newContext();
-    page = await context.newPage();
-    app = new AppFacade(page);
+  test('TC-LOGIN-01: Успешный логин', async ({ app, registeredUser }) => {
+    let successLoginPage: LoginSuccessPage;
 
-    user = new UserBuilder().build();
-
-    await app.register.openPageAndCheckFields();
-    await app.register.registerUser(user);
-
-    await app.auth.logout();
-  });
-
-  test.beforeEach(async () => {
-    app = new AppFacade(page);
-    await app.auth.logout();
-  });
-
-  test.afterAll(async () => {
-    await browser.close();
-  });
-
-  test('TC-LOGIN-01: Успешный логин', async () => {
     await test.step('Открыть страницу авторизации', async () => {
       await app.auth.openPageAndCheckFields();
     });
 
     await test.step('Авторизовать пользователя', async () => {
-      successLoginPage = await app.auth.loginUser(user.email, user.password);
+      successLoginPage = await app.auth.loginUser(
+        registeredUser.email,
+        registeredUser.password
+      );
     });
 
     await test.step('Проверить авторизацию пользователя', async () => {
-      await successLoginPage.checkLoggedIn(user.email);
+      await successLoginPage.checkLoggedIn(registeredUser.email);
     });
   });
 
-  test('TC-LOGIN-02: Невалидный пароль', async () => {
-    const wrongPassword = user.password + '1';
+  test('TC-LOGIN-02: Невалидный пароль', async ({ app, registeredUser }) => {
+    const wrongPassword = registeredUser.password + '1';
 
     await test.step('Открыть страницу авторизации', async () => {
       await app.auth.openPageAndCheckFields();
     });
 
     await test.step('Ошибка авторизации с невалидным паролем', async () => {
-      await app.auth.expectLoginValidationError(user.email, wrongPassword, /the credentials provided are incorrect/i);
+      await app.auth.expectLoginValidationError(
+        registeredUser.email,
+        wrongPassword,
+        /the credentials provided are incorrect/i
+      );
     });
   });
 
-  test('TC-LOGIN-03: Email не существует', async () => {
+  test('TC-LOGIN-03: Email не существует', async ({ app, registeredUser }) => {
     const nonExistentEmail = 'notexisted@mail.ru';
 
     await test.step('Открыть страницу авторизации', async () => {
@@ -68,16 +46,23 @@ test.describe('Логин пользователя', () => {
     });
 
     await test.step('Ошибка авторизации с несуществующим email', async () => {
-      await app.auth.expectLoginValidationError(nonExistentEmail, user.password, /no customer account found/i);
+      await app.auth.expectLoginValidationError(
+        nonExistentEmail,
+        registeredUser.password,
+        /no customer account found/i
+      );
     });
   });
 
-  test('TC-LOGIN-04: Email не валидный', async () => {
+  test('TC-LOGIN-04: Email не валидный', async ({ app, registeredUser, page }) => {
     await test.step('Открыть страницу авторизации', async () => {
       await app.auth.openPageAndCheckFields();
     });
 
-    await app.auth.loginUser(user.email + '1', user.password);
+    await app.auth.loginUser(
+      registeredUser.email + '1',
+      registeredUser.password
+    );
 
     await test.step('Ошибка авторизации с невалидным email', async () => {
       const emailError = page.locator('span.field-validation-error', {
