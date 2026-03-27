@@ -1,4 +1,4 @@
-name: Playwright Tests (Sharded + Allure)
+name: Playwright Tests
 
 on:
   push:
@@ -8,70 +8,102 @@ on:
 
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
+    name: ${{ matrix.project }} | shard ${{ matrix.shard }}
+
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4] # количество шардов
+        shard: [1, 2, 3, 4]
+        project:
+          [
+            chromium,
+            webkit,
+            "Mobile Chrome",
+            "Mobile Safari",
+            "Microsoft Edge",
+            "Google Chrome",
+          ]
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      issues: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npx playwright install --with-deps
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
-      - name: Run Playwright shard
-        run: npx playwright test --shard=${{ matrix.shard }}/4
+      - name: Run Playwright tests
+        run: |
+          npx playwright test \
+            --project="${{ matrix.project }}" \
+            --shard=${{ matrix.shard }}/4
 
-      # сохраняем allure results каждого шарда
       - name: Upload Allure Results
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.shard }}
+          name: allure-${{ matrix.project }}-${{ matrix.shard }}
           path: allure-results
+          retention-days: 7
 
   merge-reports:
+    name: Merge Allure Reports
     needs: test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      # скачать все артефакты
-      - name: Download artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      # объединяем все allure-results
-      - name: Merge Allure Results
+      - name: Merge Allure results
         run: |
           mkdir merged-results
           find artifacts -type f -name "*.json" -exec cp {} merged-results \;
 
-      - name: Generate Allure Report
+      - name: Generate Allure report
         run: allure generate merged-results --clean -o allure-report
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload final report
+        uses: actions/upload-artifact@v4
         with:
           name: final-allure-report
           path: allure-report
 
   deploy:
+    name: Deploy to GitHub Pages
     needs: merge-reports
     runs-on: ubuntu-latest
 
     permissions:
       pages: write
       id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Download final report
@@ -88,5 +120,20 @@ jobs:
         with:
           path: allure-report
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
+        id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Comment report link in PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = `https://${context.repo.owner}.github.io/${context.repo.repo}/`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ Allure Report:\n${url}`
+            });
