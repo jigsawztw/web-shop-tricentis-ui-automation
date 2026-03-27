@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4] # шарды
-        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] # браузеры
+        shard: [1/2, 2/2]  # шарды
+        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] #браузеры
 
     steps:
       - uses: actions/checkout@v4
@@ -86,7 +86,7 @@ jobs:
       - name: Download all existing allure-results artifacts
         run: |
           projects=(chromium webkit "Google Chrome" "Mobile Safari")
-          shards=(1-4 2-4 3-4 4-4)
+          shards=(1-2 2-2)  # теперь по 2 шарда
           for project in "${projects[@]}"; do
             for shard in "${shards[@]}"; do
               artifact_name="allure-results-${project}-shard-${shard}"
@@ -101,7 +101,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: merged-allure-report
+          path: merged-allure-report/*   # важно для работы index.html в корне
           name: github-pages
 
       - name: Deploy to GitHub Pages
