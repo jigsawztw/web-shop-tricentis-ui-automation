@@ -15,7 +15,7 @@ export const test = base.extend<MyFixtures>({
     await use(app);
   },
 
-  user: async ({ }, use) => {
+  user: async ({}, use) => {
     const user = new UserBuilder().build();
     await use(user);
   },

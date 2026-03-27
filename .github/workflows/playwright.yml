@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         shard: [1/4, 2/4, 3/4, 4/4] # шарды
-        project: [chromium, firefox, webkit] # браузеры
+        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] # браузеры
 
     steps:
       - uses: actions/checkout@v4

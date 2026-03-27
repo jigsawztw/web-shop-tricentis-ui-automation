@@ -11,10 +11,7 @@ test.describe('Логин пользователя', () => {
     });
 
     await test.step('Авторизовать пользователя', async () => {
-      successLoginPage = await app.auth.loginUser(
-        registeredUser.email,
-        registeredUser.password
-      );
+      successLoginPage = await app.auth.loginUser(registeredUser.email, registeredUser.password);
     });
 
     await test.step('Проверить авторизацию пользователя', async () => {
@@ -33,7 +30,7 @@ test.describe('Логин пользователя', () => {
       await app.auth.expectLoginValidationError(
         registeredUser.email,
         wrongPassword,
-        /the credentials provided are incorrect/i
+        /the credentials provided are incorrect/i,
       );
     });
   });
@@ -49,7 +46,7 @@ test.describe('Логин пользователя', () => {
       await app.auth.expectLoginValidationError(
         nonExistentEmail,
         registeredUser.password,
-        /no customer account found/i
+        /no customer account found/i,
       );
     });
   });
@@ -59,10 +56,7 @@ test.describe('Логин пользователя', () => {
       await app.auth.openPageAndCheckFields();
     });
 
-    await app.auth.loginUser(
-      registeredUser.email + '1',
-      registeredUser.password
-    );
+    await app.auth.loginUser(registeredUser.email + '1', registeredUser.password);
 
     await test.step('Ошибка авторизации с невалидным email', async () => {
       const emailError = page.locator('span.field-validation-error', {

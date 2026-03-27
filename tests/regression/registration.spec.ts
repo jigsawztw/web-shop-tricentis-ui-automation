@@ -2,7 +2,6 @@ import { test } from '../../src/helpers/fixtures/user.fixture';
 import { RegisterSuccessPage } from '../../src/pages/register-success.page';
 
 test.describe('Регистрация пользователя', () => {
-
   test('TC-REGISTER-04: Успешная регистрация пользователя', async ({ app, user }) => {
     let successPage: RegisterSuccessPage;
 
@@ -24,11 +23,7 @@ test.describe('Регистрация пользователя', () => {
 
     await app.register.openPageAndCheckFields();
 
-    await app.register.expectRegisterValidationError(
-      user,
-      'Email',
-      /wrong email/i
-    );
+    await app.register.expectRegisterValidationError(user, 'Email', /wrong email/i);
   });
 
   test('TC-REGISTER-06: Email не заполнен', async ({ app, user }) => {
@@ -36,11 +31,7 @@ test.describe('Регистрация пользователя', () => {
 
     await app.register.openPageAndCheckFields();
 
-    await app.register.expectRegisterValidationError(
-      user,
-      'Email',
-      /email is required./i
-    );
+    await app.register.expectRegisterValidationError(user, 'Email', /email is required./i);
   });
 
   test('TC-REGISTER-07: Имя не заполнено', async ({ app, user }) => {
@@ -48,11 +39,7 @@ test.describe('Регистрация пользователя', () => {
 
     await app.register.openPageAndCheckFields();
 
-    await app.register.expectRegisterValidationError(
-      user,
-      'FirstName',
-      /first name is required./i
-    );
+    await app.register.expectRegisterValidationError(user, 'FirstName', /first name is required./i);
   });
 
   test('TC-REGISTER-08: Фамилия не заполнена', async ({ app, user }) => {
@@ -60,11 +47,7 @@ test.describe('Регистрация пользователя', () => {
 
     await app.register.openPageAndCheckFields();
 
-    await app.register.expectRegisterValidationError(
-      user,
-      'LastName',
-      /last name is required./i
-    );
+    await app.register.expectRegisterValidationError(user, 'LastName', /last name is required./i);
   });
 
   test('TC-REGISTER-09: Пароль не заполнен', async ({ app, user }) => {
@@ -72,11 +55,7 @@ test.describe('Регистрация пользователя', () => {
 
     await app.register.openPageAndCheckFields();
 
-    await app.register.expectRegisterValidationError(
-      user,
-      'Password',
-      /password is required./i
-    );
+    await app.register.expectRegisterValidationError(user, 'Password', /password is required./i);
   });
 
   test('TC-REGISTER-10: Пароль не совпадает', async ({ app, user }) => {
@@ -88,7 +67,7 @@ test.describe('Регистрация пользователя', () => {
       user,
       'ConfirmPassword',
       /the password and confirmation password do not match./i,
-      notMatchedConfirmPassword
+      notMatchedConfirmPassword,
     );
   });
 
@@ -100,8 +79,7 @@ test.describe('Регистрация пользователя', () => {
     await app.register.expectRegisterValidationError(
       user,
       'Password',
-      /the password should have at least 6 characters./i
+      /the password should have at least 6 characters./i,
     );
   });
-
 });
