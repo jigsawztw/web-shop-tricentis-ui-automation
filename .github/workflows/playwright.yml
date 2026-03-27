@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4] # шарды
-        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] # браузеры
+        shard: [1/4, 2/4, 3/4, 4/4] #шарды
+        project: [chromium, webkit, "Google Chrome", "Mobile Safari"] #браузеры
 
     steps:
       - uses: actions/checkout@v4
@@ -78,6 +78,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -88,62 +89,79 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Prepare merged-allure folder
-        run: mkdir merged-allure
+      - name: Prepare merged-results folder
+        run: mkdir merged-results
 
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-chromium-shard-1-4
-          path: merged-allure
+          name: allure-results-chromium-shard-1-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-chromium-shard-2-4
-          path: merged-allure
+          name: allure-results-chromium-shard-2-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-chromium-shard-3-4
-          path: merged-allure
+          name: allure-results-chromium-shard-3-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-chromium-shard-4-4
-          path: merged-allure
+          name: allure-results-chromium-shard-4-4
+          path: merged-results
 
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-firefox-shard-1-4
-          path: merged-allure
+          name: allure-results-webkit-shard-1-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-firefox-shard-2-4
-          path: merged-allure
+          name: allure-results-webkit-shard-2-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-firefox-shard-3-4
-          path: merged-allure
+          name: allure-results-webkit-shard-3-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-firefox-shard-4-4
-          path: merged-allure
+          name: allure-results-webkit-shard-4-4
+          path: merged-results
 
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-webkit-shard-1-4
-          path: merged-allure
+          name: allure-results-"Google Chrome"-shard-1-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-webkit-shard-2-4
-          path: merged-allure
+          name: allure-results-"Google Chrome"-shard-2-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-webkit-shard-3-4
-          path: merged-allure
+          name: allure-results-"Google Chrome"-shard-3-4
+          path: merged-results
       - uses: actions/download-artifact@v4
         with:
-          name: allure-report-webkit-shard-4-4
-          path: merged-allure
+          name: allure-results-"Google Chrome"-shard-4-4
+          path: merged-results
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-results-"Mobile Safari"-shard-1-4
+          path: merged-results
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-results-"Mobile Safari"-shard-2-4
+          path: merged-results
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-results-"Mobile Safari"-shard-3-4
+          path: merged-results
+      - uses: actions/download-artifact@v4
+        with:
+          name: allure-results-"Mobile Safari"-shard-4-4
+          path: merged-results
 
       - name: Generate merged Allure report
-        run: allure generate merged-allure --clean -o merged-allure-report
+        run: allure generate merged-results --clean -o merged-allure-report
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
