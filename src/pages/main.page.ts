@@ -41,6 +41,6 @@ export class MainPage extends BasePage {
   }
 
   async goToWishListPage() {
-    await this.cartLink.click();
+    await this.wishListLink.click();
   }
 }
