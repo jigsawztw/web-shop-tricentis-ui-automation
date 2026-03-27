@@ -12,7 +12,7 @@ export class WishlistFacade {
 
   async openPageAndCheckFields() {
     await this.mainPage.open();
-    await this.mainPage.goToCartPage();
+    await this.mainPage.goToWishListPage();
     await this.wishlistPage.checkWishlistFields();
   }
 }
