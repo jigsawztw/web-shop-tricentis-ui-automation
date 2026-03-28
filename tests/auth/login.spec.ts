@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { test } from '../../src/helpers/fixtures/user.fixture';
+import { test } from '../fixtures/user.fixture';
 import { LoginSuccessPage } from '../../src/pages';
 
 test.describe('Логин пользователя', () => {

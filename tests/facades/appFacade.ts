@@ -1,9 +1,5 @@
 import { Page } from '@playwright/test';
-import { AuthFacade } from './authFacade';
-import { RegisterFacade } from './registerFacade';
-import { MainPage } from '../pages/main.page';
-import { CartFacade } from './cartFacade';
-import { WishlistFacade } from './wishlistFacade';
+import { AuthFacade, RegisterFacade, MainPage, CartFacade, WishlistFacade } from '../../src/pages/index';
 
 export class AppFacade {
   main: MainPage;

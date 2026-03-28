@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { MainPage, RegisterPage } from '../pages';
-import type { User } from '../../types/user';
+import { MainPage, RegisterPage } from '../../src/pages/index';
+import type { User } from '../../src/models/user';
 
 export class RegisterFacade {
   private mainPage: MainPage;

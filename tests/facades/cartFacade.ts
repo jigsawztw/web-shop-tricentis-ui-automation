@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { CartPage, MainPage } from '../pages';
+import { CartPage, MainPage } from '../../src/pages/index';
 
 export class CartFacade {
   private mainPage: MainPage;

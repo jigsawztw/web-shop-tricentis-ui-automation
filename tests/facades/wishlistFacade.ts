@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { WishlistPage, MainPage } from '../pages';
+import { WishlistPage, MainPage } from '../../src/pages/index';
 
 export class WishlistFacade {
   private mainPage: MainPage;

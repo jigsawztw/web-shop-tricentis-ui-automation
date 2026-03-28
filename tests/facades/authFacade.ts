@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { LoginPage, MainPage } from '../pages';
-import type { User } from '../../types/user';
+import { LoginPage, MainPage } from '../../src/pages/index';
+import type { User } from '../../src/models/user';
 
 export class AuthFacade {
   private loginPage: LoginPage;

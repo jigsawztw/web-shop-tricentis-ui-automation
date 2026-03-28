@@ -1,4 +1,4 @@
-import { test } from '../../src/helpers/fixtures/user.fixture';
+import { test } from '../fixtures/user.fixture';
 import { RegisterSuccessPage } from '../../src/pages/register-success.page';
 
 test.describe('Регистрация пользователя', () => {

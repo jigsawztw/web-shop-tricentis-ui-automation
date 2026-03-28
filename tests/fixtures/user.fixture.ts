@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
-import { AppFacade } from '../../facades/appFacade';
-import { UserBuilder } from '../builders/userBuilder';
-import { User } from '../../../types/user';
+import { UserBuilder } from '../../src/builders/userBuilder';
+import { AppFacade } from '../../src/pages/index';
+import { User } from '../../src/models/user';
 
 type MyFixtures = {
   app: AppFacade;

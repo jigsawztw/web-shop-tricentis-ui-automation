@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import type { User } from '../../../types/user';
+import type { User } from '../../src/models/user';
 
 export class UserBuilder {
   private _firstName: string;
