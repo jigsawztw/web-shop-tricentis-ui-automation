@@ -1,7 +1,7 @@
 {
   "name": "web-shop-tricentis-ui-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "UI Automation for Pet project Web Shop, using Playwright",
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
@@ -10,7 +10,7 @@
     "report:html": "npx playwright show-report",
     "report:allure": "allure serve allure-results",
     "clean:allure": "rimraf allure-results",
-    "postinstall": "npx playwright install msedge"
+    "docker:test": "node docker-test.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/jigsawztw/web-shop-tricentis-ui-automation#readme",
   "devDependencies": {
+    "typescript": "^5.5.0",
     "@faker-js/faker": "^10.3.0",
     "@playwright/test": "^1.58.0",
     "@types/node": "^25.0.10",
