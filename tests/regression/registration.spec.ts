@@ -80,7 +80,7 @@ test.describe('Регистрация пользователя', () => {
     await app.register.expectRegisterValidationError(
       userWithShortPw,
       'Password',
-      /the password should have at least 6 characters./i,
+      /The password should have at least 6 characters./i,
     );
   });
 });
