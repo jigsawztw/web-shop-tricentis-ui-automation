@@ -10,6 +10,21 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    name: ${{ matrix.project }} | shard ${{ matrix.shard }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+        project:
+          [
+            chromium,
+            webkit,
+            "Mobile Chrome",
+            "Mobile Safari",
+            "Microsoft Edge",
+            "Google Chrome",
+          ]
 
     permissions:
       contents: read
@@ -18,60 +33,98 @@ jobs:
       issues: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright
         run: npx playwright install --with-deps
 
-      - name: Install Java
-        uses: actions/setup-java@v4
+      - name: Run Playwright tests
+        run: |
+          npx playwright test \
+            --project="${{ matrix.project }}" \
+            --shard=${{ matrix.shard }}/4
+
+      - name: Upload Allure Results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
         with:
-          distribution: temurin
-          java-version: 17
+          name: allure-${{ matrix.project }}-${{ matrix.shard }}
+          path: allure-results
+          retention-days: 7
+
+  merge-reports:
+    name: Merge Allure Reports
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Merge Allure results
+        run: |
+          mkdir merged-results
+          cp -r artifacts/*/* merged-results || true
 
       - name: Generate Allure report
-        run: allure generate allure-results --clean -o allure-report || true
+        run: allure generate merged-results --clean -o allure-report
 
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+      - name: Upload final report
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: playwright-report
-          retention-days: 30
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: allure-report
+          name: final-allure-report
           path: allure-report
-          retention-days: 30
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: merge-reports
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Download final report
+        uses: actions/download-artifact@v4
+        with:
+          name: final-allure-report
+          path: allure-report
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Comment Allure Report link in PR
+      - name: Comment report link in PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
@@ -82,5 +135,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Allure Report available here:\n${url}`
+              body: `Allure Report:\n${url}`
             });
