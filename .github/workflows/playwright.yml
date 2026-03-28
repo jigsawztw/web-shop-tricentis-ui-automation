@@ -81,7 +81,7 @@ jobs:
       - name: Merge Allure results
         run: |
           mkdir merged-results
-          find artifacts -type f -name "*.json" -exec cp {} merged-results \;
+          cp -r artifacts/*/* merged-results || true
 
       - name: Generate Allure report
         run: allure generate merged-results --clean -o allure-report
