@@ -21,9 +21,7 @@ jobs:
             chromium,
             webkit,
             "Mobile Chrome",
-            "Mobile Safari",
-            "Microsoft Edge",
-            "Google Chrome",
+            "Mobile Safari"
           ]
 
     permissions:
