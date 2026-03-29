@@ -15,14 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
-        project:
-          [
-            chromium,
-            webkit,
-            "Mobile Chrome",
-            "Mobile Safari"
-          ]
+        shard: [1, 2, 3, 4, 5]
+        project: [chromium, webkit, firefox, 'Mobile Chrome', 'Mobile Safari', 'Microsoft Edge']
 
     permissions:
       contents: read
