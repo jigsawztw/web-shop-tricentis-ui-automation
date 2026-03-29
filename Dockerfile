@@ -1,13 +1,14 @@
-FROM node:20-bullseye
+FROM node:20-bullseye-slim
 
 WORKDIR /app
 
 COPY package*.json ./
+RUN npm ci
 
-RUN npm ci && npx playwright install --with-deps
+RUN npm ci \
+    && npx playwright install --with-deps \
+    && npx playwright install msedge
 
 COPY . .
-
-VOLUME ["/app/allure-results"]
 
 CMD ["npm", "run", "test"]
