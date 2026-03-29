@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { LoginPage, MainPage } from '../../src/pages/index';
 import type { User } from '../../src/models/user';
 
@@ -29,9 +29,16 @@ export class AuthFacade {
 
   async logout() {
     const logoutButton = this.page.locator('a.ico-logout');
-    if (await logoutButton.isVisible()) {
+    const loginButton = this.page.locator('a.ico-login');
+
+    try {
+      await logoutButton.waitFor({ state: 'visible' });
       await logoutButton.click();
       await logoutButton.waitFor({ state: 'hidden' });
+    } catch (e) {
+      console.log('Logout button not visible, skipping logout');
     }
+
+    await loginButton.waitFor({ state: 'visible' });
   }
 }
